@@ -91,7 +91,32 @@ session_start();
 
         <?php
         require_once "db.php";
+        function time_elapsed_string($datetime, $full = false) {
+                $now = new DateTime;
+                $ago = new DateTime($datetime);
+                $diff = $now->diff($ago);
+                $diff->w = floor($diff->d / 7);
+                $diff-> d -= $diff->w * 7;
+                $string = array(
+                        'y' => 'year',
+                        'm' => 'month',
+                        'w' => 'week',
+                        'd' => 'day',
+                        'h' => 'hour',
+                        'i' => 'minute',
+                        's' => 'second',
+                        );
+                foreach ($string as $k => & $v) {
+                    if ($diff -> $k) {
+                        $v = $diff -> $k.' '.$v.($diff -> $k > 1 ? 's' : '');
+                    } else {
+                        unset($string[$k]);
+                    }
+                }
 
+                if (!$full) $string = array_slice($string, 0, 1);
+                return $string ? implode(', ', $string).' ago' : 'just now';
+            }
         $conn = konek_db();
         //eksekusi query untuk tarik data dari database
         $query = $conn->prepare("select * from post");
@@ -111,7 +136,7 @@ session_start();
             echo "\t<div class=\"post-head\">\n";
             echo "\t\t<img src=\"images/img1.jpg\" class=\"profile-pic\">\n";
             
-            // echo "\t\t<p class=\"time-post\">" . time_elapsed_string($postdate, false) . "</p>\n";
+            echo "\t\t<p class=\"time-post\">" . time_elapsed_string($postdate) . "</p>\n";
             echo "\t</div>\n";
             echo "\t<div class=\"post-img\">\n";
             echo "<input type=\"hidden\" name=\"p-id\" value=\"$id\" />";
