@@ -24,7 +24,6 @@ session_start();
         <!---- start-smoth-scrolling---->
         <script type="text/javascript" src="js/move-top.js"></script>
         <script type="text/javascript" src="js/easing.js"></script>
-        <script type="text/javascript" src="js/timelapsed.js"></script>
         <script type="text/javascript">
             // jQuery(document).ready(function ($) {
             // $(".scroll").click(function (event) {
@@ -76,9 +75,7 @@ session_start();
                                 <nav class="link-effect-3" id="link-effect-3">
 
                                     <ul class="nav1 nav nav-wil">
-
-                                        <li><a class="scroll" href="#about"><img src="images/notification.png" style="width: 32px; height: 32px"></a></li>
-                                        <li><a class="scroll" href="#services" ><img src="images/user.png" style="width: 32px; height: 32px"></a></li>
+                                        <li><a class="scroll" href="profile.php" ><img src="images/user.png" style="width: 32px; height: 32px"></a></li>
                                     </ul>
                                 </nav>
                             </div>
@@ -86,7 +83,24 @@ session_start();
                         </div>
                     </div>
                 </div>
-            </div></div>
+            </div>
+                <?php 
+                    require_once "db.php";
+                    $conn = konek_db();
+                    $query = $conn->prepare("select verify, email from profile where id = ?");
+                    $query->bind_param("i", $_SESSION['profile_id']);
+                    $query->execute();
+                    $query->bind_result($verify, $email);
+                    $query->fetch();
+                    if ($verify != 1) {
+                        echo "<div id=\"verify\">\n";
+                        echo "<p>Verify your email address <span class=\"underline\">" . $email . "</span> to strengthen the protection of your account (<a href=\"&#35;\">Send verification email</a>) <a class=\"cancel\" onclick=\"closeVerify()\">&times;</a>";
+                        echo "</div>";
+                    }
+                 ?>
+                 
+            
+        </div>
         <div class="space"></div>
 
         <?php
@@ -136,7 +150,7 @@ session_start();
             echo "\t<div class=\"post-head\">\n";
             echo "\t\t<img src=\"images/img1.jpg\" class=\"profile-pic\">\n";
             
-            echo "\t\t<p class=\"time-post\">" . time_elapsed_string($postdate) . "</p>\n";
+            echo "\t\t<p class=\"time-post\">" . time_elapsed_string($postdate) . "<br></p>\n";
             echo "\t</div>\n";
             echo "\t<div class=\"post-img\">\n";
             echo "<input type=\"hidden\" name=\"p-id\" value=\"$id\" />";
@@ -145,6 +159,7 @@ session_start();
             echo "\t</div>\n";
             echo "\t<div class=\"post-description\">\n";
             echo "\t\t<p>$desc</p>\n";
+            echo "<button>1</button>";
             echo "\t</div>\n";
             echo "</div>\n";
         }
@@ -158,6 +173,9 @@ session_start();
 
         </div>
         <script>
+            function closeVerify(){
+                document.getElementById("verify").style.display = 'none';
+            }
             function openNav() {
                 document.getElementById("myNav").style.height = "80%";
                 document.getElementById("blah").src = "images/no_image.png";
@@ -180,27 +198,24 @@ session_start();
             
 
             $(document).ready(function() {
-
                 $(".post").dblclick(function() {
-                    var javascriptVariable = $(this).find("input[type=hidden]");
+                    var javascriptVariable = $(this).find("input[type=hidden]").val();
+                    console.log(javascriptVariable);
                     var heart = $(this).find("i");
+                    console.log(heart);
                     $.ajax({
                        type: "GET",
-                       url: "post.php",
-                       data: "id="+javascriptVariable.val(),
+                       url: "post.php?id="+javascriptVariable,
+                       //data: "id=" + javascriptVariable,
                        success: function(){
                            heart.fadeIn("slow");
 
-                        setTimeout(function() {
-                            heart.fadeOut("slow");
-                        }, 2000);                     
+                            setTimeout(function() {
+                                heart.fadeOut("slow");
+                            }, 2000);                     
                         }
                     })
-                        
-                        
-
-
-                });
+                })
 
             });
         </script>
