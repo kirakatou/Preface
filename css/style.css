@@ -40,6 +40,9 @@ body h1,h2,h3,h4,h5,h6{
 	width: 550px;
 	color: white;
 }
+.main table tr td input{
+	color: black;
+}
 .main table tr td:first {
 	width: 200px;
 }

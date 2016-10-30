@@ -34,7 +34,7 @@ session_start();
                     <div class="top-nav">
                         <div class="navigation">
                             <div class="logo">
-                                <h1><a href="index.html"><span>P</span>REFACE</a></h1>
+                                <h1><a href="home.php"><span>P</span>REFACE</a></h1>
                             </div>
                             <div class="float_center">
                                 <form action="">
@@ -49,8 +49,9 @@ session_start();
                                     <ul class="nav1 nav nav-wil">
                                         <li><button onclick="myFunction()" class="dropbtn"><img src="images/user.png" style="width: 32px; height: 32px"></a></button>
                                               <div id="myDropdown" class="dropdown-content">
-                                                <a href="#about">Edit Profile</a>
-                                                <a href="#base">Log Out</a>
+                                                <a href="profile-update.html">Edit Profile</a>
+                                                <a href="">Change Password</a>
+                                                <a href="logout.php">Log Out</a>
                                               </div>
                                             </div>
                                         </li>
@@ -89,10 +90,14 @@ session_start();
                         <div class="col-md-7 header-right">
                             <h1>Hi !</</h1>
                             <h6>
-                            <?php if (empty($row->job)) 
+                            <?php 
+                                if (empty($row->job)) 
                                     echo "FREE";
-                                    else 
-                                        echo $row->job ?><a class="a-btn-a scroll" href="#port">Following</a></h6>
+                                else 
+                                    echo $row->job;
+                                if($id != $_SESSION["profile_id"])
+                                    echo "<a class=\"a-btn-a scroll\">Following</a>";        
+                            ?></h6>
                             <ul class="address">
 
                                 <li>
@@ -104,7 +109,7 @@ session_start();
                                 <li>
                                     <ul class="address-text">
                                         <li><b>D.O.B</b></li>
-                                        <li><?php echo $row->date ?></li>
+                                        <li><?php echo $row->dateofbirth ?></li>
                                     </ul>
                                 </li>
                                 <li>
@@ -220,15 +225,7 @@ session_start();
 
 
 <!-- /header -->
-<div class="footer" id="contact">
-    <div class="container">
 
-        <div class="copy_right text-center">
-            <p>&copy; 2016 Preface . All rights reserved | Design by <a href="http://w3layouts.com/" target="_blank">W3layouts.</a></p>
-        </div>
-    </div>
-</div>
-<!-- //footer -->
 
 <a href="#home" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
 <!--start-smooth-scrolling-->
