@@ -23,6 +23,86 @@ body a{
 body h1,h2,h3,h4,h5,h6{
 	    font-family: 'Asap', sans-serif;
 }
+/*main*/
+.main{
+	width: 100%;
+	margin: 0px;
+	padding: 0px;
+}
+.main table{
+	width: 46%;
+	margin: 0px 27%;
+	margin-top: 50px;
+	padding: 10px 0px;
+}
+.main table tr td {
+	padding: 10px 10px 2px;
+	width: 550px;
+	color: white;
+}
+.main table tr td:first {
+	width: 200px;
+}
+.main table tr td input[type=submit]{
+	border: none;
+	color: white;
+	background-color:  #00a78e;
+	padding: 10px;
+}
+/*dropdown*/
+.navigation-right ul.nav1 li .dropbtn {
+    background-color: rgba(0,0,0,0);
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+.navigation-right ul.nav1 li .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    width: 230px;
+}
+
+.navigation-right ul.nav1 li  a {
+    color: black;
+    padding: 10px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.navigation-right ul.nav1 li a:hover {
+	background-color: #ddd
+}
+
+.show {display:block;}
+/*verify*/
+#verify{
+	background-color: rgba(0,0,0,0.7);
+	transition: 0.5s all;
+}
+#verify p{
+	/*position: absolute;*/
+	position: relative;
+	font-size: 13px;
+	margin: 0px auto;
+	width: 1170px;
+	color: rgba(255,255,255,0.8);
+}
+#verify p a{
+	color: #00a78e;
+}
+#verify .cancel{
+	float: right;
+	color: rgba(255,255,255,0.8);
+	cursor: pointer;
+}
+#verify p .underline{
+	text-decoration: underline;
+
+}
 /*-- header --*/
 #home {
     /*background: url(../images/header-bg.jpg) no-repeat center top;
@@ -104,20 +184,7 @@ body h1,h2,h3,h4,h5,h6{
  .navigation-right{
 	float:right;
 }
-.navigation-right ul li{
-	display:inline-block;
-}
-.navigation-right ul li a{
-	color:#fff;
-    font-size:1em;
-    text-decoration: none;
-    padding: 10px 0;
-	text-transform:uppercase;
-    font-family: 'Open Sans', sans-serif;
-}
-.navigation-right ul li.active a{
-	    color: #00a78e;
-}
+
 .float_center{
 	display: inline-block;
 	text-align: center;
@@ -963,43 +1030,6 @@ span.border.one:after {
   ul.address {
     margin-top: 2.5em;
   }
-	/*span.menu {
-		display: block;
-		cursor: pointer;
-		width: 100%;
-		position: relative;
-		text-align: center;
-		margin: 0px;
-	}
-	.navigation-right ul {
-		position: absolute;
-		left: 2%;
-		width: 96%;
-		z-index: 999;
-		text-align: center;
-		padding: 0px;
-		margin: 13px 0px 0px;
-	}*/
-	/*.navigation-right ul.nav1 li {
-		display: inline-block;
-		width: 100%;
-		margin: 0px;
-		padding: 10px 0em;
-	}
-	ul.nav1 {
-		display: none;
-		margin-top: 2em;
-		    background: rgba(27, 26, 26, 0.98);
-	}
-	.navigation-right {
-		margin: 0.7em 0 0;
-	}
-	.navigation-right ul li a {
-		display: inline-block;
-	}
-	.navigation-right ul.nav1 li {
-		padding: 0px 0;
-	}*/
 	
 	span.border:after {
 		height: 7px;
