@@ -42,9 +42,8 @@ session_start();
             header("Location: home.php");
         if (isset($_POST["username"]) && isset($_POST["password"])) {
             $username = $_POST["username"];
-            $password = $_POST["password"];
+            $password = sha1($_POST["password"]);
             $conn = konek_db();
-			//eksekusi query untuk tarik data dari database
 			$query = $conn->prepare("select password, login.profile_id, count(post.profile_id) from login left join post on post.profile_id = login.profile_id where username = ?");
 			
 			$query->bind_param("s", $username);
@@ -52,7 +51,6 @@ session_start();
 			$query->bind_result($pass, $id, $post_count);
 			$query->fetch();
 			if ($password != null || $password == '') {
-				echo "$pass = $password";
 				if ($password == $pass) {
 	                $_SESSION["profile_id"] = $id;
                     $_SESSION["post_count"] = $post_count;
@@ -63,21 +61,18 @@ session_start();
 			}else {
 				echo "<p>Username/Password salah part 1</p>";
 			}
-
-            
         }
         ?>
         <div class="main">
-
             <div class="main-info">
                 <div class="sap_tabs">
                     <div id="horizontalTab" style="display: block; width: 100%; margin: 0px;">
-                        <div class="logo" >
+                        <div class="logo">
                             <h1><span>P</span>REFACE</h1>
                         </div>
                         <ul class="resp-tabs-list">
-                            <li class="resp-tab-item" aria-controls="tab_item-0"><h2><span>Login</span></h2></li>
-                            <li class="resp-tab-item" aria-controls="tab_item-1"><span>Register</span></li> 
+                            <li class="resp-tab-item" aria-controls="tab_item-0" aria-selected="false"><h2><span>Login</span></h2></li>
+                            <li class="resp-tab-item" aria-controls="tab_item-1" aria-selected="true"><span>Register</span></li> 
                         </ul>	
                         <div class="clear"> </div>	
                         <div class="resp-tabs-container">
