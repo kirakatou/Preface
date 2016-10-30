@@ -104,7 +104,7 @@ session_start();
                             <div class="tab-1 resp-tab-content" aria-labelledby="tab_item-1">
                                 <div class="login-top sign-top">
                                     <div class="agileits-login">
-                                        <form action="profile.php" method="post">
+                                        <form action="register.php" method="post">
                                             <input type="text" name="nama" placeholder="Full Name" required="">
                                             <input type="text" name="username" placeholder="Username" required="">
                                             <input type="text" class="email" name="email" placeholder="Email" required=""/>

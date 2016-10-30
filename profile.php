@@ -8,6 +8,7 @@ session_start();
         <link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
         <script src="js/jquery.min.js"></script>
         <link href="css/style.css" rel='stylesheet' type='text/css' />
+        <link href="css/font-awesome.css" rel="stylesheet" type="text/css">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta name="keywords" content="Preface Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
@@ -46,9 +47,13 @@ session_start();
                                 <nav class="link-effect-3" id="link-effect-3">
 
                                     <ul class="nav1 nav nav-wil">
-
-                                        <li><a class="scroll" href="#about"><img src="images/notification.png" style="width: 32px; height: 32px"></a></li>
-                                        <li><a class="scroll" href="#services" ><img src="images/user.png" style="width: 32px; height: 32px"></a></li>
+                                        <li><button onclick="myFunction()" class="dropbtn"><img src="images/user.png" style="width: 32px; height: 32px"></a></button>
+                                              <div id="myDropdown" class="dropdown-content">
+                                                <a href="#about">Edit Profile</a>
+                                                <a href="#base">Log Out</a>
+                                              </div>
+                                            </div>
+                                        </li>
                                     </ul>
                                 </nav>
                             </div>
@@ -61,70 +66,63 @@ session_start();
         <div class="space"></div>
         <?php
         require_once "db.php";
-        if(!isset($_SESSION["user_id"]))
-            if (isset($_POST["nama"]) && isset($_POST["username"]) && isset($_POST["email"]) && isset($_POST["password"])) {
-                $nama = $_POST["nama"];
-                $email = $_POST["email"];
-                $username = $_POST["username"];
-                $password = $_POST["password"];
-                $conn = konek_db();
-                $query = $conn->prepare("insert into profile(fullname, email) values(?, ?)");
-                $query->bind_param("ss", $nama, $email);
-                $result = $query->execute();
-                $id =  mysqli_insert_id($conn);
-                if (!$result)
-                    die("<p>Proses query gagal.</p>");
-                else {
-                    $query = $conn->prepare("insert into login(username, password, profile_id) values(?, ?, ?)");
-                    $query->bind_param("ssi", $username, $password, $id);
-                    $result = $query->execute();
-                    if ($result) {
-                        $_SESSION['user_id'] = $id;
-                        
-
+        if(isset($_GET["id"])){
+            $id = $_GET["id"];
+        }else if(isset($_SESSION["profile_id"])){
+            $id = $_SESSION["profile_id"];
+        }else{
+            header("Location:login.php");
+        }    
+        $conn = konek_db();
+        $query = $conn->prepare("select * from profile where id = ?");
+        $query->bind_param("i", $id);
+        $result = $query->execute();
+        if (!$result) {
+            die("die");
+        }
+        $rows = $query->get_result();
+        $row = $rows->fetch_object();
                     ?>
 
 
                     <div class="banner-info">
                         <div class="col-md-7 header-right">
                             <h1>Hi !</</h1>
-                            <h6>UX & UI DESIGNER<a class="a-btn-a scroll" href="#port">Following</a></h6>
+                            <h6>
+                            <?php if (empty($row->job)) 
+                                    echo "FREE";
+                                    else 
+                                        echo $row->job ?><a class="a-btn-a scroll" href="#port">Following</a></h6>
                             <ul class="address">
 
                                 <li>
                                     <ul class="address-text">
                                         <li><b>NAME</b></li>
-                                        <li>I'M ROB LEE</li>
+                                        <li><?php echo $row->fullname ?></li>
                                     </ul>
                                 </li>
                                 <li>
                                     <ul class="address-text">
                                         <li><b>D.O.B</b></li>
-                                        <li>23-06-1980</li>
+                                        <li><?php echo $row->date ?></li>
                                     </ul>
                                 </li>
                                 <li>
                                     <ul class="address-text">
                                         <li><b>PHONE </b></li>
-                                        <li>+00 111 222 3333</li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <ul class="address-text">
-                                        <li><b>ADDRESS </b></li>
-                                        <li>756 Global Place,New York.</li>
+                                        <li><?php echo $row->phone ?></li>
                                     </ul>
                                 </li>
                                 <li>
                                     <ul class="address-text">
                                         <li><b>E-MAIL </b></li>
-                                        <li><a href="mailto:example@mail.com"> mail@example.com</a></li>
+                                        <li><a href="mailto:example@mail.com"><?php echo $row->email ?></a></li>
                                     </ul>
                                 </li>
                                 <li>
                                     <ul class="address-text">
                                         <li><b>WEBSITE </b></li>
-                                        <li><a href="http://w3layouts.com">www.myresume.com</a></li>
+                                        <li><a href="http://w3layouts.com"><?php echo $row->website ?></a></li>
                                     </ul>
                                 </li>
 
@@ -136,17 +134,17 @@ session_start();
                         <div class="clearfix"> </div>
 
                     </div>
+        
                 </div>
             </div>
             </div>
-            <!-- about -->
             <div id="about" class="about">
                 <div class="col-md-6 about-left">
                     <div id="owl-demo1" class="owl-carousel owl-carousel2">
                         <div class="item">
                             <div class="about-left-grid">
-                                <h2>Hi! I'm <span>Rob Lee</span></h2>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis.</p>
+                                <h2>Hi! I'm <span><?php echo $row->fullname ?></span></h2>
+                                <p><?php echo $row->description ?></p>
                                 <!-- <ul>
                                         <li><a class="a-btn-a scroll" href="#port">Follow +</a></li>
                                         <li><a class="a-btn-h scroll" href="#contact">Hire Me</a></li>
@@ -191,53 +189,33 @@ session_start();
             <!-- /about -->
             <div id="photos" class="photos">
                 <div class="container">
+                    <?php 
+                        // $query = $conn->prepare("select * , count(post_like.post_id)from post LEFT JOIN post_like ON post_like.post_id = post.id LEFT JOIN post_comment ON post_comment.post_id = post.id where profile_id = ?");
+                        $query = $conn->prepare("select * from post where profile_id = ?");
+                        $query->bind_param("i", $id);
+                        $result = $query->execute();
+
+                        if (!$result)
+                            die("Gagal Query");
+
+                        //tarik data ke result set
+                        $rows = $query->get_result();
+                        while ($row = $rows->fetch_array()) { 
+
+                    ?>
                     <div class="photo">
-                        <a href=""><img src="images/b1.jpg" >   
-                            <span>test</span></a>
-                    </div>
-                    <div class="photo">
-                        <img src="images/b2.jpg" >  
-                        <span>test</span></a>
-                    </div>
-                    <div class="photo">
-                        <img src="images/b3.jpg" >  
-                        <span>test</span></a>
-                    </div>
-                    <div class="photo">
-                        <img src="images/img1.jpg" >    
-                    </div>
-                    <div class="photo">
-                        <img src="images/pic1.jpg" >    
-                    </div>
-                    <div class="photo">
-                        <img src="images/pic2.jpg" >    
-                    </div>
-                    <div class="photo">
-                        <img src="images/pic3.jpg" >    
-                    </div>
-                    <div class="photo">
-                        <img src="images/pic4.jpg" >    
-                    </div>
-                    <div class="photo">
-                        <img src="images/pic5.jpg" >    
-                    </div>
-                    <div class="photo">
-                        <img src="images/pic6.jpg" >    
-                    </div>
+                        <a href="">
+                        <?php 
+                            $source = "Post/" . $row['image'];
+                            echo "<img src=\"$source\" >" ;
+                            echo "<span>10 <i class=\"fa fa-heart\"></i> 20 <i class=\"fa fa-comments\"></i></span>";
+                         ?> 
+                        </a>
+                    </div>                     
+                    <?php } ?>
 
                 </div>
             </div>
-            <?php
-                        }
-                        else {
-                            //tidak terinsert
-                        }     
-                    }
-                } else {
-                    echo "<p>Data produk belum diisi!</p>";
-                }
-            } else {}
-            ?>
 
 
 
@@ -268,6 +246,13 @@ session_start();
         $().UItoTop({easingType: 'easeOutQuart'});
 
     });
+</script>
+<script>
+/* When the user clicks on the button,
+toggle between hiding and showing the dropdown content */
+function myFunction() {
+    document.getElementById("myDropdown").classList.toggle("show");
+}
 </script>
 <!--end-smooth-scrolling-->
 <!-- //for bootstrap working -->
