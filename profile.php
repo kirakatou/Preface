@@ -49,8 +49,9 @@ session_start();
                                     <ul class="nav1 nav nav-wil">
                                         <li><button onclick="myFunction()" class="dropbtn"><img src="images/user.png" style="width: 32px; height: 32px"></a></button>
                                               <div id="myDropdown" class="dropdown-content">
-                                                <a href="profile-update.html">Edit Profile</a>
+                                                <a href="profile-update.php">Edit Profile</a>
                                                 <a href="">Change Password</a>
+
                                                 <a href="logout.php">Log Out</a>
                                               </div>
                                             </div>
@@ -121,20 +122,29 @@ session_start();
                                 <li>
                                     <ul class="address-text">
                                         <li><b>E-MAIL </b></li>
-                                        <li><a href="mailto:example@mail.com"><?php echo $row->email ?></a></li>
+                                        <li><a href="mailto:<?php echo $row->email ?>"><?php echo $row->email ?></a></li>
                                     </ul>
                                 </li>
                                 <li>
                                     <ul class="address-text">
                                         <li><b>WEBSITE </b></li>
-                                        <li><a href="http://w3layouts.com"><?php echo $row->website ?></a></li>
+                                        <li><a href="http:\\<?php echo $row->website ?>"><?php echo $row->website ?></a></li>
                                     </ul>
                                 </li>
 
                             </ul>
                         </div>
                         <div class="col-md-5 header-left">
-                            <img src="images/img1.jpg" alt="">
+                            <?php 
+                                if($row->profile_pic == null || $row->profile_pic == '')
+                                    echo "<img src=\"profile/no-pic.png\" >";
+                                else {
+                                    $source = "profile/" . $row->profile_pic; 
+                                    echo "<img src=\"$source\">";
+                                }
+                                
+                             ?>
+                            
                         </div>
                         <div class="clearfix"> </div>
 
@@ -144,7 +154,7 @@ session_start();
             </div>
             </div>
             <div id="about" class="about">
-                <div class="col-md-6 about-left">
+                <div class="col-md-7 about-left">
                     <div id="owl-demo1" class="owl-carousel owl-carousel2">
                         <div class="item">
                             <div class="about-left-grid">
@@ -159,10 +169,19 @@ session_start();
 
                     </div>
                 </div>
-                <div class="col-md-6 about-right">
+                <?php 
+                    if($row->profile_pic == null || $row->profile_pic == '')
+                        echo "<div class=\"col-md-5 about-right\" style=\"background:url(profile/no-pic.png) no-repeat 0px 0px;\">";
+                    else {
+                        $source = "profile/" . $row->profile_pic; 
+                        echo "<div class=\"col-md-5 about-right\" style=\"background:url($source) no-repeat 0px 0px; background-size : cover;\">";
+                    }
+                                
+                ?>
+                
 
                 </div>
-                <div class="clearfix"> </div>
+                <div class="clearfix" > </div>
                 <link href="css/owl.carousel.css" rel="stylesheet">
                 <script src="js/owl.carousel.js"></script>
                 <script>
@@ -196,7 +215,12 @@ session_start();
                 <div class="container">
                     <?php 
                         // $query = $conn->prepare("select * , count(post_like.post_id)from post LEFT JOIN post_like ON post_like.post_id = post.id LEFT JOIN post_comment ON post_comment.post_id = post.id where profile_id = ?");
-                        $query = $conn->prepare("select * from post where profile_id = ?");
+                        $query = $conn->prepare("select * , count(post_like.post_id) as like_count, 
+                                                    count(post_comment.post_id) as comment_count from post
+                                                    LEFT JOIN post_like ON post_like.post_id = post.id
+                                                    LEFT JOIN post_comment ON post_comment.post_id = post.id
+                                                    where profile_id = ?
+                                                    group by post_like.post_id");
                         $query->bind_param("i", $id);
                         $result = $query->execute();
 
@@ -213,7 +237,9 @@ session_start();
                         <?php 
                             $source = "Post/" . $row['image'];
                             echo "<img src=\"$source\" >" ;
-                            echo "<span>10 <i class=\"fa fa-heart\"></i> 20 <i class=\"fa fa-comments\"></i></span>";
+                            $like = $row['like_count'];
+                            $comment = $row['comment_count'];
+                            echo "<span> $like <i class=\"fa fa-heart\"></i> $comment <i class=\"fa fa-comments\"></i></span>";
                          ?> 
                         </a>
                     </div>                     
