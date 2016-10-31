@@ -25,23 +25,23 @@ if ($rows->num_rows == 0)
 
 $profile = $rows->fetch_object();
 $file_gambar = '';
-if(isset($_FILES["image"])){
-	if($_FILES["image"]["error"] == 0) {
-	//hapus gambar lama
-	$image = $profile->profile_pic;
-	if($image != null && file_exists("profile/$image")) {
-		unlink("profile/$image");
+if(isset($_FILES["profile-img"])){
+	if($_FILES["profile-img"]["error"] == 0) {
+		//hapus gambar lama
+		$image = $profile->profile_pic;
+		if($image != null && file_exists("profile/$image")) {
+			unlink("profile/$image");
 	}
 
 	//salin gambar yang diupload ke folder images
 	
-	if(isset($_FILES["image"])) {
-		if($_FILES["image"]["error"] == 0) {
-			$image = $_FILES["image"];
+	if(isset($_FILES["profile-img"])) {
+		if($_FILES["profile-img"]["error"] == 0) {
+			$image = $_FILES["profile-img"];
 
 			$extension = new SplFileInfo($image['name']);
-			$extension = $entexsion->getExtension();
-			$file_gambar = $id . ' . ' . $extension;
+			$extension = $extension->getExtension();
+			$file_gambar = $id . '.' . $extension;
 			copy ($image['tmp_name'], 'profile/' . $file_gambar);
 		}
 	}
