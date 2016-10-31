@@ -1,4 +1,6 @@
-
+<?php 
+session_start(); 
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,6 +43,7 @@
                                           <div id="myDropdown" class="dropdown-content">
                                             <a href="profile.php">My Profile</a>
                                             <a href="profile.php">Change Password</a>
+                                            <a href="delete-acc.php">Delete Account</a>
                                             <a href="logout.php">Log Out</a>
                                           </div>
                                         </div>
@@ -55,41 +58,58 @@
         </div>
     </div>  
     <div class="space"></div>
+    <?php
+        require_once "db.php";
+        if(isset($_SESSION["profile_id"])){
+            $id = $_SESSION["profile_id"];
+        }else{
+            header("Location:login.php");
+        }    
+        $conn = konek_db();
+        $query = $conn->prepare("select * from profile where id = ?");
+        $query->bind_param("i", $id);
+        $result = $query->execute();
+        if (!$result) {
+            die("die");
+        }
+        $rows = $query->get_result();
+        $row = $rows->fetch_object();
+    ?>
 	<div class="main">
 		<div class="container">
 			<table>
-				<form action="update-profile.php" method="POST">
+				<form action="update-profile.php" method="POST" enctype="multipart/form-data">
 					<tr>
 						<td>Full Name</td>
-						<td><input type="text" name="fullname"></td>
+						<td><input type="text" name="fullname" value="<?php echo $row->fullname; ?>"></td>
 					</tr>
 					<tr>
 						<td>Date OF Birth</td>
-						<td><input type="text" name="date" placeholder="YYYY-MM-DD"></td>
+						<td><input type="text" name="date" placeholder="YYYY-MM-DD" value="<?php echo $row->dateofbirth; ?>"> </td>
 					</tr>
 					<tr>
 						<td>Phone</td>
-						<td><input type="text" name="phone" ></td>
+						<td><input type="text" name="phone" value="<?php echo $row->phone; ?>"></td>
 					</tr>
 					<tr>
 						<td>Email</td>
-						<td><input type="text" name="email"></td>
+						<td><input type="text" name="email" value="<?php echo $row->email; ?>"></td>
 					</tr>
 					<tr>
 						<td>Website</td>
-						<td><input type="text" name="website"></td>
+						<td><input type="text" name="website" value="<?php echo $row->website; ?>"></td>
 					</tr>
 					<tr>
 						<td>Job</td>
-						<td><input type="text" name="job"></td>
+						<td><input type="text" name="job" value="<?php echo $row->job; ?>"></td>
 					</tr>
 					<tr>
 						<td>Description</td>
-						<td><textarea name="desc"></textarea></td>
+						<td><textarea name="desc"><?php echo $row->fullname; ?></textarea></td>
 					</tr>
 					<tr>
 						<td>Profile Picture</td>
-						<td><input type="file" name="image"></td>
+						<td><input type="file" name="profile-img"></td>
 					</tr>
 					<tr>
 						<td colspan="2" style="text-align: center;"><input type="submit" name="" value="UPDATE PROFILE"></td>
