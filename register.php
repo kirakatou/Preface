@@ -12,8 +12,10 @@ if(!isset($_SESSION["user_id"])){
         $query->bind_param("ss", $nama, $email);
         $result = $query->execute();
         $id = mysqli_insert_id($conn);
-        if (!$result)
-            die("<p>Proses query gagal.</p>");
+        if (!$result){
+            header("Location:login.php");
+            die("<script type='text/javascript'>alert('Failed to Register.');</script>");
+        }
         else {
             $query = $conn->prepare("insert into login(username, password, profile_id) values(?, ?, ?)");
             $query->bind_param("ssi", $username, $password, $id);
@@ -28,10 +30,12 @@ if(!isset($_SESSION["user_id"])){
                 $query->bind_param("i",$id);
                 $result = $query->execute();
                 echo "<script type='text/javascript'>alert('Failed to Register.');</script>";
+                header("Location:login.php");
             }
         }
     } else {
         echo "<script type='text/javascript'>alert('Data pribadi belum diisi.');</script>";
+        header("Location:login.php");
     }
 } else {
 
