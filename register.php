@@ -19,9 +19,9 @@ if(!isset($_SESSION["user_id"])){
             $query->bind_param("ssi", $username, $password, $id);
             $result = $query->execute();
             if ($result) {
-                $_SESSION['user_id'] = $id;
+                $_SESSION['profile_id'] = $id;
                 $_SESSION['post_count'] = 0;
-                header("Location:home.php");
+                // header("Location:home.php");
             }
             else {
                 $query = $conn->prepare("delete from profile where id=?");
