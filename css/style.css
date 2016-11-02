@@ -70,7 +70,7 @@ body h1,h2,h3,h4,h5,h6{
     cursor: pointer;
 }
 
-.navigation-right ul.nav1 li .dropdown-content , .post .dropdown-content2{
+.navigation-right ul.nav1 li .dropdown-content {
     display: none;
     position: absolute;
     background-color: white;
@@ -85,9 +85,35 @@ body h1,h2,h3,h4,h5,h6{
 }
 
 .navigation-right ul.nav1 li a:hover {
-	background-color: #ddd
+	  background-color: #ddd
 }
+.dropdown-option{
+    color: #fff;
+    position: absolute;
+    top: 10px;
+    display: none;
+    background-color: rgba(26, 26, 26, 1);
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    box-shadow: none;
+    margin-top: 0;
+    padding-top: 0;
+    width: 150px;
+    right: 0;
+    z-index: 999;
+}
+.dropdown-option a {
+    display: block;
+    text-align: center;
+    padding: 5px;  
+    color: white;
+    cursor: pointer;
+}
+.dropdown-option a:hover {
 
+    color: rgba(26, 26, 26, 1);
+    background: rgba(255,255,255,0.8);
+}
 .show {display:block;}
 /*verify*/
 #verify{
@@ -818,17 +844,23 @@ span.border.one:after {
             display: none;
         }
 .post .post-description{
-	padding: 10px;
+	padding: 20px 10px;
 	color: white;
+  float: none;
+  clear: both;
 }
 .post .post-description p {
-	width: 450px;
+	float: left;
+  position: relative;
+  top: -10px;
+  width: 450px;
 }
 .post .post-description button{
 	float: right;
-	margin-top: -35px;
-	background: rgba(0,0,0,0);
 
+	background: rgba(0,0,0,0);
+  position: relative;
+  top: -10px;
 	border: none;
 }
 /*-- responsive-design --*/
