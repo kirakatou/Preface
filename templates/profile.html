@@ -1,6 +1,10 @@
     {% extends "header.html" %}
     {% block option %} 
-        <a href="profile-update.php">Edit Profile</a>
+        {% if profile['match'] != 1 %}
+            <a href="profile.php">View Profile</a>
+        {% else %}
+            <a href="profile-update.php">Edit Profile</a>
+        {% endif %}
         <a href="">Change Password</a>
         <a href="logout.php">Log Out</a>
     {% endblock %}
@@ -8,7 +12,11 @@
         <div class="banner-info">
             <div class="col-md-7 header-right">
                 <h1>Hi !</</h1>
-                <h6>{{profile['job']}}
+                <h6>{% if profile['job'] == '' %}
+                        FREE
+                    {% else %}
+                        {{profile['job']}}
+                    {% endif %}    
                 
                     {% if profile['match'] != 1 %}
                         <a class=\"a-btn-a scroll\">Following</a> 
