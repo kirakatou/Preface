@@ -1,224 +1,114 @@
 <?php 
-session_start();
-?>
-<!DOCTYPE HTML>
-<html>
-    <head>
-        <title>Preface</title>
-        <link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
-        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-        <script src="js/jquery.min.js"></script>
-        <!-- Custom Theme files -->
-        <link href="css/style.css" rel='stylesheet' type='text/css' />
-        <link href="css/font-awesome.css" rel="stylesheet" type="text/css">
-        <!-- Custom Theme files -->
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <meta name="keywords" content="Preface Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
-              Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony Ericsson, Motorola web design" />
-        <!-- webfonts -->
-        <link href='//fonts.googleapis.com/css?family=Asap:400,700,400italic' rel='stylesheet' type='text/css'>
-        <link href='//fonts.googleapis.com/css?family=Open+Sans:400,300,600' rel='stylesheet' type='text/css'>
+    session_start();
+    function time_passed($timestamp){
+    //type cast, current time, difference in timestamps
+    $timestamp      = (int) $timestamp;
+    $current_time   = time();
+    $diff           = $current_time - $timestamp;
+   
+    //intervals in seconds
+    $intervals      = array (
+        'year' => 31556926, 'month' => 2629744, 'week' => 604800, 'day' => 86400, 'hour' => 3600, 'minute'=> 60
+    );
+   
+    //now we just find the difference
+    if ($diff == 0)
+    {
+        return 'just now';
+    }   
 
-        <!-- webfonts -->
-        <!---- start-smoth-scrolling---->
-        <script type="text/javascript" src="js/move-top.js"></script>
-        <script type="text/javascript" src="js/easing.js"></script>
-        <script type="text/javascript">
-            // jQuery(document).ready(function ($) {
-            // $(".scroll").click(function (event) {
-            // event.preventDefault();
-            // $('html,body').animate({scrollTop: $(this.hash).offset().top}, 1000);
-            // });
-            // });
+    if ($diff < 60)
+    {
+        return $diff == 1 ? $diff . ' second ago' : $diff . ' seconds ago';
+    }       
 
-        </script>
-        <!---- start-smoth-scrolling---->
-    </head>
-    <body>
-        <div id="myNav" class="overlay">
-            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-            <div class="overlay-content">
-                <form action="insertPost.php" method="POST" enctype="multipart/form-data" >
-                    <input id="f02" type="file" name="image" placeholder="Add profile picture" onclick="readURL(this);" accept="image/*"/>
-                    <label for="f02"><img src="images/no_image.png" id="blah" alt="Your image"></label>
-                    <!-- <label class="cabinet">
-                        <img src="images/no_image.png" id="blah" alt="Your image">
-                        <input type="file" name="imagess"  accept="image/*"> 
-                         onclick="readURL(this);" 
-                     </label> --> 
+    if ($diff >= 60 && $diff < $intervals['hour'])
+    {
+        $diff = floor($diff/$intervals['minute']);
+        return $diff == 1 ? $diff . ' minute ago' : $diff . ' minutes ago';
+    }       
 
-                    <textarea id="description" name="desc"></textarea>
-                    <input type="submit" name="post-btn" value="POST">  
-                </form>
-            </div>
-        </div>
-        <div id="home" class="header">
-            <div class="container">
-                <!-- top-hedader -->
-                <div class="top-header">
-                    <!-- /logo -->
-                    <!--top-nav---->
-                    <div class="top-nav">
-                        <div class="navigation">
-                            <div class="logo">
-                                <h1><a href="index.html"><span>P</span>REFACE</a></h1>
-                            </div>
-                            <div class="float_center">
-                                <form action="">
-                                    <input type="text" id="search" style="width: 300px">
-                                </form>
-                            </div>
+    if ($diff >= $intervals['hour'] && $diff < $intervals['day'])
+    {
+        $diff = floor($diff/$intervals['hour']);
+        return $diff == 1 ? $diff . ' hour ago' : $diff . ' hours ago';
+    }   
 
-                            <div class="navigation-right">
+    if ($diff >= $intervals['day'] && $diff < $intervals['week'])
+    {
+        $diff = floor($diff/$intervals['day']);
+        return $diff == 1 ? $diff . ' day ago' : $diff . ' days ago';
+    }   
 
-                                <nav class="link-effect-3" id="link-effect-3">
+    if ($diff >= $intervals['week'] && $diff < $intervals['month'])
+    {
+        $diff = floor($diff/$intervals['week']);
+        return $diff == 1 ? $diff . ' week ago' : $diff . ' weeks ago';
+    }   
 
-                                    <ul class="nav1 nav nav-wil">
-                                        <li><a class="scroll" href="profile.php" ><img src="images/user.png" style="width: 32px; height: 32px"></a></li>
-                                    </ul>
-                                </nav>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-                <?php 
-                    require_once "db.php";
-                    $conn = konek_db();
-                    $query = $conn->prepare("select verify, email from profile where id = ?");
-                    $query->bind_param("i", $_SESSION['profile_id']);
-                    $query->execute();
-                    $query->bind_result($verify, $email);
-                    $query->fetch();
-                    if ($verify != 1) {
-                        echo "<div id=\"verify\">\n";
-                        echo "<p>Verify your email address <span class=\"underline\">" . $email . "</span> to strengthen the protection of your account (<a href=\"&#35;\">Send verification email</a>) <a class=\"cancel\" onclick=\"closeVerify()\">&times;</a>";
-                        echo "</div>";
-                    }
-                 ?>
-                 
-            
-        </div>
-        <div class="space"></div>
+    if ($diff >= $intervals['month'] && $diff < $intervals['year'])
+    {
+        $diff = floor($diff/$intervals['month']);
+        return $diff == 1 ? $diff . ' month ago' : $diff . ' months ago';
+    }   
 
-        <?php
-        require_once "db.php";
-        function time_elapsed_string($datetime, $full = false) {
-                $now = new DateTime;
-                $ago = new DateTime($datetime);
-                $diff = $now->diff($ago);
-                $diff->w = floor($diff->d / 7);
-                $diff-> d -= $diff->w * 7;
-                $string = array(
-                        'y' => 'year',
-                        'm' => 'month',
-                        'w' => 'week',
-                        'd' => 'day',
-                        'h' => 'hour',
-                        'i' => 'minute',
-                        's' => 'second',
-                        );
-                foreach ($string as $k => & $v) {
-                    if ($diff -> $k) {
-                        $v = $diff -> $k.' '.$v.($diff -> $k > 1 ? 's' : '');
-                    } else {
-                        unset($string[$k]);
-                    }
-                }
-
-                if (!$full) $string = array_slice($string, 0, 1);
-                return $string ? implode(', ', $string).' ago' : 'just now';
-            }
+    if ($diff >= $intervals['year'])
+    {
+        $diff = floor($diff/$intervals['year']);
+        return $diff == 1 ? $diff . ' year ago' : $diff . ' years ago';
+    }
+}
+    require_once "db.php";
+    require_once "twig.php";
+    $error = false;
+    $pesan = null;
+    $post = '';
+    if (! isset($_SESSION["profile_id"])) {
+        echo $twig->render("login.html");
+    }else { 
         $conn = konek_db();
-        //eksekusi query untuk tarik data dari database
-        $query = $conn->prepare("select * from post");
-        $result = $query->execute();
-
-        if (!$result)
-            die("Gagal Query");
-
-        //tarik data ke result set
-        $rows = $query->get_result();
-        while ($row = $rows->fetch_array()) {
-            $url_image = 'post/' . $row['image'];
-            $desc = $row["description"];
-            $postdate = $row["datetime"];
-            $id = $row["id"];
-            echo "<div class=\"post\">\n";
-            echo "\t<div class=\"post-head\">\n";
-            echo "\t\t<img src=\"images/img1.jpg\" class=\"profile-pic\">\n";
-            
-            echo "\t\t<p class=\"time-post\">" . time_elapsed_string($postdate) . "<br></p>\n";
-            echo "\t</div>\n";
-            echo "\t<div class=\"post-img\">\n";
-            echo "<input type=\"hidden\" name=\"p-id\" value=\"$id\" />";
-            echo "\t\t<i class=\"fa fa-heart\"></i>\n";
-            echo "\t\t<img src=\"$url_image\">\n";
-            echo "\t</div>\n";
-            echo "\t<div class=\"post-description\">\n";
-            echo "\t\t<p>$desc</p>\n";
-            echo "<button>1</button>";
-            echo "\t</div>\n";
-            echo "</div>\n";
+        $query = $conn->prepare("select verify, email from profile where id = ?");
+        $query->bind_param("i", $_SESSION['profile_id']);
+        $query->execute();
+        $query->bind_result($verify, $email);
+        $query->fetch();
+        $conn2 = konek_db();
+             
+            //eksekusi query untuk tarik data dari database
+        $query2 = $conn2->prepare("select post.description, post.datetime, post.id, post.profile_id, post.image, profile.profile_pic, login.username from post LEFT JOIN profile ON profile.id = post.profile_id LEFT JOIN login ON login.profile_id = profile.id ORDER BY post.datetime DESC");
+        $result = $query2->execute();
+        $data = array();
+        if (!$result){
+            $error = true;
         }
-        ?>
-
-        <div class="space"></div>
-        <div class="footer">
-            <div class="post-button">
-                <button onclick="openNav();">POST</button>
-            </div>
-
-        </div>
-        <script>
-            function closeVerify(){
-                document.getElementById("verify").style.display = 'none';
+        else {
+            $rows = $query2->get_result();
+            while ($row = $rows->fetch_array()) {
+                if($row["profile_pic"] == null)
+                    $profile_pic = "profile/no-pic.png";
+                else
+                    $profile_pic = "profile/" . $row["profile_pic"];
+                $url_image = 'post/' . $row['image'];
+                $desc = $row["description"];
+                $postdate = time_passed(strtotime($row["datetime"]));
+                $id = $row["id"];
+                $profileid = $row["profile_id"];
+                $username = $row["username"];
+                $post = array("id"          =>$id,
+                               "profile_id"  =>$profileid,
+                               "profile_pic" =>$profile_pic,
+                               "username"    =>$username,
+                               "image"       =>$url_image,
+                               "description" =>$desc,
+                               "postdate"    =>$postdate);
+                array_push($data, $post);
             }
-            function openNav() {
-                document.getElementById("myNav").style.height = "80%";
-                document.getElementById("blah").src = "images/no_image.png";
-                document.getElementById("description").value = '';
-            }
-
-            function closeNav() {
-                document.getElementById("myNav").style.height = "0%";
-            }
-            function readURL(input) {
-                if (input.files && input.files[0]) {
-                    var reader = new FileReader();
-                    reader.onload = function (e) {
-                        document.getElementById("blah").src = e.target.result;
-                    }
-
-                    reader.readAsDataURL(input.files[0]);
-                }
-            }
-            
-
-            $(document).ready(function() {
-                $(".post").dblclick(function() {
-                    var javascriptVariable = $(this).find("input[type=hidden]").val();
-                    console.log(javascriptVariable);
-                    var heart = $(this).find("i");
-                    console.log(heart);
-                    $.ajax({
-                       type: "GET",
-                       url: "post.php?id="+javascriptVariable,
-                       //data: "id=" + javascriptVariable,
-                       success: function(){
-                           heart.fadeIn("slow");
-
-                            setTimeout(function() {
-                                heart.fadeOut("slow");
-                            }, 2000);                     
-                        }
-                    })
-                })
-
-            });
-        </script>
-
-    </body>
-</html>
+        }
+        $verification = array('verify' => $verify, 
+                              'email'  => $email,
+                              'error'  => $error);
+        //tarik data ke result set
+        echo $twig->render("home.html", array_merge(array("posts"=>$data),array("verify"=>$verification)));
+        // echo $twig->render("home.html", array("posts"=>$data));
+    }
+?>
