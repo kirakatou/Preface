@@ -17,11 +17,6 @@
                 <form action="insertPost.php" method="POST" enctype="multipart/form-data" >
                     <input id="f02" type="file" name="image" placeholder="Add profile picture" onchange="readURL(this);" accept="image/*"/>
                     <label id="label-f02" for="f02"><img src="images/no_image.png" id="post-image" alt="Your image"></label>
-                    <!-- <label class="cabinet">
-                        <img src="images/no_image.png" id="blah" alt="Your image">
-                        <input type="file" name="imagess"  accept="image/*"> 
-                         onclick="readURL(this);" 
-                     </label> --> 
 
                     <textarea id="description" name="desc"></textarea>
                     <input type="submit" name="post-btn" value="POST">  
@@ -41,11 +36,14 @@
                     <i class="fa fa-heart"></i>
                     <img src="{{post['image']}}">
                 </div>
-                <div class="post-description">
+                <div class="post-description" id="post">
                     <p>{{post['description']}}</p>
-                    <button class="dropdown-button" onclick="dropPost()"><i class="fa fa-ellipsis-h"></i></button>
-                    <div id="myDropdown" class="dropdown-content2">
-                        <a href="">Home</a>
+                    <div class="dropdown">
+                        <button class="dropdown-button" data-toggle="dropdown"><i class="fa fa-ellipsis-h"></i></button>
+                        <div id="myDropdown" class="dropdown-option">
+                            <a class="editPost">Edit Post</a>
+                            <a class="deletePost">Delete Post</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -61,6 +59,13 @@
     {% endblock %}
     {% block script %}
         <script>
+            
+            $("#post button").on("click",function(event){
+                var current=$(this).next();
+                var grandparent=$(this).parent().parent();
+                current.toggle();
+             });
+            
             function myFunction() {
                 document.getElementById("myDropdown").classList.toggle("show");
             }
@@ -80,7 +85,6 @@
             function readURL(input) {
                 // if (input.files && input.files[0]) {
                     var reader = new FileReader();
-                    console.log("a");
                     reader.onload = function (e) {
                         document.getElementById("post-image").src = e.target.result;
                     }
@@ -89,22 +93,36 @@
                 // }
             }
             $(document).ready(function() {
-                $(".post").dblclick(function() {
-                    var javascriptVariable = $(this).find("input[type=hidden]").val();
-                    var heart = $(this).find("i");
+                $(".post-img").dblclick(function() {
+                    var id = $(this).parent().find("input[type=hidden]").val();
+                    var heart = $(this).parent().find("i");
                     $.ajax({
                        type: "GET",
-                       url: "like.php?id="+javascriptVariable,
+                       url: "like.php?id="+id,
                        //data: "id=" + javascriptVariable,
                        success: function(){
                            heart.fadeIn("slow");
-
                             setTimeout(function() {
                                 heart.fadeOut("slow");
                             }, 2000);                     
                         }
-                    })
-                })
+                    });
+                });
+                $(".deletePost").on("click",function(event){
+                    var id = $(this).parent().parent().parent().parent().find("input[type=hidden]").val();
+                    console.log(id);
+                    $.ajax({
+                        type: "GET",
+                        url: "delete-post.php?id="+id,
+                        success: function(){
+                            $(this).parent().parent().parent().parent().find(".post").remove();                        
+                        },
+                        error: function(XMLHttpRequest, textStatus, errorThrown) { 
+                            alert("Status: " + textStatus); alert("Error: " + errorThrown); 
+                        }
+                    });
+                    console.log("2");
+                 });
 
             });
         </script>
