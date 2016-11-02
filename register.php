@@ -1,6 +1,17 @@
 <?php
 session_start();
 require_once "db.php";
+require_once "PHPMailer/PHPMailerAutoload.php";
+require_once "twig.php";
+function generateRandomString($length = 10) {
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $charactersLength = strlen($characters);
+    $randomString = '';
+    for ($i = 0; $i < $length; $i++) {
+        $randomString .= $characters[rand(0, $charactersLength - 1)];
+    }
+    return $randomString;
+}
 if(!isset($_SESSION["user_id"])){
     if (isset($_POST["nama"]) && isset($_POST["username"]) && isset($_POST["email"]) && isset($_POST["password"])) {
         $nama = $_POST["nama"];
@@ -21,9 +32,31 @@ if(!isset($_SESSION["user_id"])){
             $query->bind_param("ssi", $username, $password, $id);
             $result = $query->execute();
             if ($result) {
-                $_SESSION['profile_id'] = $id;
-                $_SESSION['post_count'] = 0;
-                header("Location:home.php");
+                $token= generateRandomString();
+                $query = $conn->prepare("insert into token(token, profile_id) values(?, ?)");
+                $query->bind_param("ss", $token, $id);
+                $result = $query->execute();
+                if ($result) {
+                    $_SESSION['profile_id'] = $id;
+                    $_SESSION['post_count'] = 0;
+                    $link = 'localhost/web/verify.php?token=' . $token . '&email=' . $email;
+                    $mail = new PHPMailer();
+                    $mail->isSMTP();
+                    $mail->Host = 'smtp.gmail.com';
+                    $mail->SMTPAuth = true;
+                    $mail->Username = 'preface.community@gmail.com';
+                    $mail->Password = 'prefacecom';
+                    $mail->SMTPSecure = 'tls';
+                    $mail->Port = 587;
+                    $mail->setFrom("preface.community@gmail.com", "Preface");
+                    $mail->addAddress($email);
+                    $mail->addReplyTo("preface.community@gmail.com");
+                    $mail->Subject = "Verification email PREFACE";
+                    $mail->MsgHTML($twig->render("mail.html", array("link"=>$link)));
+                    if (!$mail->send())
+                        echo "Mailer Error: " . $mail->ErrorInfo;
+                    header("Location:home.php");
+                }
             }
             else {
                 $query = $conn->prepare("delete from profile where id=?");
