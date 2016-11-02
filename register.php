@@ -3,7 +3,7 @@ session_start();
 require_once "db.php";
 require_once "PHPMailer/PHPMailerAutoload.php";
 require_once "twig.php";
-function generateRandomString($length = 10) {
+function generateRandomString($length = 15) {
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $charactersLength = strlen($characters);
     $randomString = '';
