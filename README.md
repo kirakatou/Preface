@@ -5,7 +5,7 @@ Preface is a Project Sample of using Twig, PHPMailer
 ## Features ##
 - Post Image and give description for image 
 - Look at other profile for their detail and artwork.
-- Like other people artwork on your home base from your following stat.
+- Like other people artwork on your homepage, base from your following status.
 
 ## Future Development ##
 - Comment other people artwork.
