@@ -26,7 +26,8 @@
         $profile_pic = "profile/" . $row->profile_pic; 
     }
     if($id == $_SESSION["profile_id"]){
-        $profil = array('job' => $row->job,
+        $profil = array( 'id' => $id,
+                         'job' => $row->job,
                          'name' => $row->fullname,
                          'dob' => $row->dateofbirth,
                          'phone' => $row->phone,
@@ -36,7 +37,19 @@
                          'description' => $row->description,
                          'match' => 1);
     }else {
-        $profil = array('job' => $row->job,
+        $query = $conn->prepare("select * from profile_follower
+                                where profile_id = ? AND follower_id = ?");
+        $query->bind_param("ii", $_SESSION['profile_id'], $id);
+        $result = $query->execute();
+        $rows = $query->get_result();
+        $follow = 0;
+        if ($rows->num_rows == 0)
+            $follow = 0;
+        else
+            $follow = 1;
+
+        $profil = array( 'id' => $id,
+                         'job' => $row->job,
                          'name' => $row->fullname,
                          'dob' => $row->dateofbirth,
                          'phone' => $row->phone,
@@ -44,7 +57,8 @@
                          'website' => $row->website,
                          'profile_pic' => $profile_pic,
                          'description' => $row->description,
-                         'match' => 0);
+                         'match' => 0,
+                         'follow' => $follow);
     }
 
     $query = $conn->prepare("select * , count(post_like.post_id) as like_count, 

@@ -12,7 +12,7 @@ function generateRandomString($length = 15) {
     }
     return $randomString;
 }
-if(!isset($_SESSION["user_id"])){
+if(!isset($_SESSION["profile_id"])){
     if (isset($_POST["nama"]) && isset($_POST["username"]) && isset($_POST["email"]) && isset($_POST["password"])) {
         $nama = $_POST["nama"];
         $email = $_POST["email"];
@@ -71,6 +71,6 @@ if(!isset($_SESSION["user_id"])){
         header("Location:login.php");
     }
 } else {
-
+    header("Location:home.php");
 }
 ?>

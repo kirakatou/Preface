@@ -19,7 +19,14 @@
                     {% endif %}    
                 
                     {% if profile['match'] != 1 %}
-                        <a class=\"a-btn-a scroll\">Following</a> 
+                        <a class=\"a-btn-a scroll\" id="follow">
+                            {% if profile['follow'] == 1 %}
+                                Following
+                            {% else %}
+                                Follow+
+                            {% endif %}
+                        </a> 
+                        
                     {% endif %}   
                 </h6>
                 <ul class="address">
@@ -136,9 +143,22 @@
         });
     </script>
     <script>
-    function myFunction() {
-        document.getElementById("myDropdown").classList.toggle("show");
-    }
+        function myFunction() {
+            document.getElementById("myDropdown").classList.toggle("show");
+        }
+        $("#follow").on("click",function(event){
+            var id = {{profile['id']}};
+            $.ajax({
+                type: "GET",
+                url: "follow.php?id="+id,
+                success: function(data){
+                    $("#follow").html(data);                  
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) { 
+                    alert("Status: " + textStatus); alert("Error: " + errorThrown); 
+                }
+            });
+         });
     </script>
     <script src="js/bootstrap.js"></script>
     {% endblock %}

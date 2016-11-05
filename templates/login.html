@@ -131,7 +131,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     success:function(data){
                         $("#status").html(data);
                     },
-                    error:function (){}
+                    error:function (){
+                        alert('Try again');
+                    }
                 });
             }
             

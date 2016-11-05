@@ -23,6 +23,9 @@ body a{
 body h1,h2,h3,h4,h5,h6{
 	    font-family: 'Asap', sans-serif;
 }
+#follow, #send-verify{
+  cursor: pointer;
+}
 /*main*/
 .main{
 	width: 100%;

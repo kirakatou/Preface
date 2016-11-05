@@ -72,7 +72,7 @@
 			}
 			} else {
 				//tetap file gambar yang lama
-				$file_gambar = $profile->image;
+				$file_gambar = $profile->profile_pic;
 			}
 		}
 
