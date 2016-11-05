@@ -36,7 +36,7 @@ CREATE TABLE `login` (
 
 LOCK TABLES `login` WRITE;
 /*!40000 ALTER TABLE `login` DISABLE KEYS */;
-INSERT INTO `login` VALUES ('sutandi_tan','601f1889667efaebb33b8c12572835da3f027f78',3),('stanley_leo','601f1889667efaebb33b8c12572835da3f027f78',4),('sonyw','601f1889667efaebb33b8c12572835da3f027f78',5),('sutandi_tanz','601f1889667efaebb33b8c12572835da3f027f78',6),('asdaaa','601f1889667efaebb33b8c12572835da3f027f78',7),('kirakatouu','601f1889667efaebb33b8c12572835da3f027f78',16),('kirakatou','601f1889667efaebb33b8c12572835da3f027f78',15),('kira','601f1889667efaebb33b8c12572835da3f027f78',14),('marioo','c2df4de8c9c034c638527afa5a6f6f21eea377cd',17);
+INSERT INTO `login` VALUES ('sutandi_tan','601f1889667efaebb33b8c12572835da3f027f78',3),('stanley_leo','601f1889667efaebb33b8c12572835da3f027f78',4),('sonyw','601f1889667efaebb33b8c12572835da3f027f78',5),('sutandi_tanz','601f1889667efaebb33b8c12572835da3f027f78',6),('asdaaa','601f1889667efaebb33b8c12572835da3f027f78',7),('kirakatouu','601f1889667efaebb33b8c12572835da3f027f78',16),('kirakatou','601f1889667efaebb33b8c12572835da3f027f78',15),('kira','601f1889667efaebb33b8c12572835da3f027f78',14),('marioo','c2df4de8c9c034c638527afa5a6f6f21eea377cd',17),('kirakatouuu','601f1889667efaebb33b8c12572835da3f027f78',18);
 /*!40000 ALTER TABLE `login` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -54,7 +54,7 @@ CREATE TABLE `post` (
   `description` varchar(100) DEFAULT NULL,
   `datetime` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -63,7 +63,7 @@ CREATE TABLE `post` (
 
 LOCK TABLES `post` WRITE;
 /*!40000 ALTER TABLE `post` DISABLE KEYS */;
-INSERT INTO `post` VALUES (1,3,'3-1.png','Coming soon','2016-10-22 20:54:34'),(2,3,'3-2.png','test','2016-10-22 22:54:34'),(3,3,'3-3.jpg','Background Smart Campus','2016-10-22 23:54:34'),(5,3,'3-5.png','One piece','2016-10-24 17:48:11'),(6,3,'3-6.jpg','One Piece part 2','2016-10-24 17:48:33'),(12,4,'4-1.jpg','stanley','2016-11-01 17:29:38'),(13,3,'3-9.jpg','test','2016-11-01 21:02:18');
+INSERT INTO `post` VALUES (2,3,'3-2.png','test','2016-10-22 22:54:34'),(3,3,'3-3.jpg','Background Smart Campus','2016-10-22 23:54:34'),(21,3,'3-5.jpg','asde','2016-11-06 01:40:09'),(5,3,'3-5.png','One piece','2016-10-24 17:48:11'),(6,3,'3-6.jpg','One Piece part 2','2016-10-24 17:48:33'),(12,4,'4-1.jpg','stanley','2016-11-01 17:29:38'),(24,18,'18-1.jpg','','2016-11-06 02:21:01'),(22,3,'3-6.jpg','Dor','2016-11-06 01:43:47'),(23,3,'3-7.jpg','','2016-11-06 02:05:19');
 /*!40000 ALTER TABLE `post` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -113,7 +113,7 @@ CREATE TABLE `post_like` (
 
 LOCK TABLES `post_like` WRITE;
 /*!40000 ALTER TABLE `post_like` DISABLE KEYS */;
-INSERT INTO `post_like` VALUES (1,1,3),(2,1,3),(3,1,3),(4,1,3),(5,1,3),(6,1,3),(7,1,3),(8,1,3),(9,1,3),(10,1,3),(11,1,3),(12,1,3),(13,1,3),(14,1,3),(15,1,3),(16,1,3),(17,1,3),(18,1,3),(19,1,3),(20,1,3),(21,1,3),(22,1,3),(23,1,3),(24,1,3),(25,1,3),(26,1,3),(27,1,3),(28,1,3),(29,1,3),(30,1,3),(31,1,3),(32,1,3),(33,1,3),(34,1,3),(35,1,3),(36,1,3),(37,1,3),(38,1,3),(40,1,3),(41,3,3),(42,1,3),(43,1,3),(44,2,3),(45,12,17),(56,13,17);
+INSERT INTO `post_like` VALUES (41,3,3),(44,2,3),(45,12,17);
 /*!40000 ALTER TABLE `post_like` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -136,7 +136,7 @@ CREATE TABLE `profile` (
   `description` varchar(250) DEFAULT NULL,
   `verify` tinyint(1) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -145,7 +145,7 @@ CREATE TABLE `profile` (
 
 LOCK TABLES `profile` WRITE;
 /*!40000 ALTER TABLE `profile` DISABLE KEYS */;
-INSERT INTO `profile` VALUES (3,'Sutandi','tanzwithyou@yahoo.com','','Programmer','1998-02-24','08123984123','sutandi.asia','Perfectionist',NULL),(4,'Stanley','stanzzz@yahoo.com','4.jpg','Admin Marketing','1998-01-11','+72391831','stanzzzzz.com','Stanley',NULL),(6,'Sutandi','asd@gmail.com',NULL,NULL,NULL,NULL,NULL,NULL,NULL),(7,'Sutandi','a@mgiald',NULL,NULL,NULL,NULL,NULL,NULL,NULL),(16,'kirakatou','kirakatouu@gmail.com',NULL,NULL,NULL,NULL,NULL,NULL,1),(15,'kirakatou','kirakatouu@gmail.com',NULL,NULL,NULL,NULL,NULL,NULL,NULL),(14,'kira','kirakatouu@gmail.com',NULL,NULL,NULL,NULL,NULL,NULL,1),(17,'Mario','kirakatouu@gmail.com','17.jpg','','1998-01-11','08546121161','','',1);
+INSERT INTO `profile` VALUES (3,'Sutandi','tanzwithyou@yahoo.com','','Programmer','1998-02-24','08123984123','sutandi.asia','Perfectionist',NULL),(4,'Stanley','stanzzz@yahoo.com','4.jpg','Admin Marketing','1998-01-11','+72391831','stanzzzzz.com','Stanley',NULL),(6,'Sutandi','asd@gmail.com',NULL,NULL,NULL,NULL,NULL,NULL,NULL),(7,'Sutandi','a@mgiald',NULL,NULL,NULL,NULL,NULL,NULL,NULL),(16,'kirakatou','kirakatouu@gmail.com',NULL,NULL,NULL,NULL,NULL,NULL,1),(15,'kirakatou','kirakatouu@gmail.com',NULL,NULL,NULL,NULL,NULL,NULL,NULL),(14,'kira','kirakatouu@gmail.com',NULL,NULL,NULL,NULL,NULL,NULL,1),(17,'Mario','kirakatouu@gmail.com','17.jpg','','1998-01-11','08546121161','','',1),(18,'Kira Katou','kirakatouu@gmail.com',NULL,'Gamer','1998-01-11','08216546216','kirakatou.com','asdadadsada',1);
 /*!40000 ALTER TABLE `profile` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -161,7 +161,7 @@ CREATE TABLE `profile_follower` (
   `profile_id` int(10) unsigned DEFAULT NULL,
   `follower_id` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -170,6 +170,7 @@ CREATE TABLE `profile_follower` (
 
 LOCK TABLES `profile_follower` WRITE;
 /*!40000 ALTER TABLE `profile_follower` DISABLE KEYS */;
+INSERT INTO `profile_follower` VALUES (2,3,4);
 /*!40000 ALTER TABLE `profile_follower` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -185,7 +186,7 @@ CREATE TABLE `token` (
   `token` varchar(45) NOT NULL,
   `profile_id` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -194,6 +195,7 @@ CREATE TABLE `token` (
 
 LOCK TABLES `token` WRITE;
 /*!40000 ALTER TABLE `token` DISABLE KEYS */;
+INSERT INTO `token` VALUES (3,'MgaZ9Gd199Rp58c',18);
 /*!40000 ALTER TABLE `token` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -206,4 +208,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-11-03 22:53:35
+-- Dump completed on 2016-11-06  2:26:21
