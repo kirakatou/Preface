@@ -8,6 +8,7 @@
                     <a class="cancel" onclick="closeVerify()">&times;</a>
                 </p>
             </div>
+            <link rel="stylesheet" type="text/css" href="">
         {% endif %}
     {% endblock %}
     {% block body %}
@@ -62,6 +63,7 @@
         </div>
     {% endblock %}
     {% block script %}
+        {{parent()}}
         <script>
             
             $("#post button").on("click",function(event){
@@ -98,6 +100,7 @@
                     reader.readAsDataURL(input.files[0]);
                 // }
             }
+            
             $(document).ready(function() {
                 $(".post-img").dblclick(function() {
                     var id = $(this).parent().find("input[type=hidden]").val();
